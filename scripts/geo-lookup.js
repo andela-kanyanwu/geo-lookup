@@ -71,13 +71,16 @@ var geoLookup = {
       var tempkelvin = reply.main.temp,
           tempCelsius = (tempkelvin - 273.15).toFixed(2),
           country = reply.sys.country,
-          weatherDescription = reply.weather[0].description;
+          weatherDescription = reply.weather[0].description,
+          icon = reply.weather[0].icon,
+          iconUrl = "http://openweathermap.org/img/w/" + icon + ".png"
 
 
       console.log("Latitude: ", newLatitude, " Longitude: ", newLongitude);
       console.log("Country: ", country );
       console.log("Temperature: ",tempCelsius);
       console.log("weather description: ", weatherDescription);
+      $("#icon").html("<img src=" + iconUrl + ">");
     }); 
   }
   
