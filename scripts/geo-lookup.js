@@ -16,7 +16,12 @@ var geoLookup = {
 
         //Error message
         if (reply.message === "Error: Not found city") {
-          alert("City not found....Search again");
+          $("#icon").hide();
+          $("#weather").hide();
+          $("#temp").hide();
+          $("#position").hide();          
+          $("#weather-section").html(reply.message);
+          alert("error");
         }
 
         //convert temperature to celsius by subtracting 273.15 as results is given in Kelvin
@@ -25,7 +30,9 @@ var geoLookup = {
           country = reply.sys.country,
           weatherDescription = reply.weather[0].description,
           icon = reply.weather[0].icon,
-          iconUrl = "http://openweathermap.org/img/w/" + icon + ".png"
+          iconUrl = "http://openweathermap.org/img/w/" + icon + ".png",
+          latitude = coords.latitude.toFixed(2),
+          longitude = coords.longitude.toFixed(2);
 
 
           console.log("Latitude: ", coords.latitude, " Longitude: ", coords.longitude);
@@ -33,6 +40,9 @@ var geoLookup = {
           console.log("Temperature: ",tempCelsius);
           console.log("weather description: ", weatherDescription);
           $("#icon").html("<img src=" + iconUrl + ">");
+          $("#weather").html(weatherDescription);
+          $("#temp").html(tempCelsius);
+          $("#position").html(country + " - " + " lat: " + latitude + " lng: " + longitude);
       });
       return coords;
     };
@@ -96,7 +106,9 @@ var geoLookup = {
           country = reply.sys.country,
           weatherDescription = reply.weather[0].description,
           icon = reply.weather[0].icon,
-          iconUrl = "http://openweathermap.org/img/w/" + icon + ".png"
+          iconUrl = "http://openweathermap.org/img/w/" + icon + ".png",
+          latitude = newLatitude.toFixed(2),
+          longitude = newLongitude.toFixed(2);
 
 
       console.log("Latitude: ", newLatitude, " Longitude: ", newLongitude);
@@ -104,6 +116,9 @@ var geoLookup = {
       console.log("Temperature: ",tempCelsius);
       console.log("weather description: ", weatherDescription);
       $("#icon").html("<img src=" + iconUrl + ">");
+      $("#weather").html(weatherDescription);
+      $("#temp").html(tempCelsius);
+      $("#position").html(country + " - "+ " lat: " + latitude + " lng: " + longitude);
     }); 
   }
   

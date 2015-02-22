@@ -12,7 +12,7 @@
       <h1>Geo<small>Lookup</small></h1>
     </div>
     <!--Search-->
-    <div class="col-lg-6">
+    <div class="col-lg-6" id="search-bar">
       <div class="input-group">
         <input type="text" class="form-control" id="textInput" placeholder="Search location">
           <span class="input-group-btn">
@@ -24,12 +24,41 @@
     <!--page body-->
     <div class="container-fluid">
       <!--Weather display-->
-      <div class="row">
-        <div class="col-xs-6"></div>
-        <div class="col-xs-6"></div>
+      <div class="row" id="weather-section">  
+        <div class="col-xs-12">
+          <!--Left part-->      
+          <div class="col-md-6">
+            <!--Upper daily weather row with icon-->
+            <div class="row">
+              <div class="col-xs-6" id="icon">  
+              </div>
+              <div class="col-xs-6"> 
+                <div class="row"> 
+                  <div class="col-xs-12" id="weather"> weather
+                  </div>
+                </div>
+                <div class="row"> 
+                  <div class="col-xs-12" id="temp"> temp
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!--Lower daily weather row-->
+            <div class="row">              
+              <div class="col-xs-12" id="position"> Country and position
+              </div>
+            </div>
+          </div>
+          <!--Right part--> 
+          <div class="col-md-6">For weekly weather display</div>
+        </div>
       </div>
       <!--Map display-->
-      <div class="row">
+      <div class="row"> 
+        <div>   
+          <div id="map-canvas">
+          </div>
+        </div
       </div>
     <!--Footer-->
     <div>
@@ -41,8 +70,4 @@
 </html>
 
  
-    <!-- <div>
-      <div id="icon"></div>   
-      <div id="map-canvas">
-      </div>
-    </div -->
+    
