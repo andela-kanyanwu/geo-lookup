@@ -1,30 +1,3 @@
-// var geoLookup = {
-//   initialize: function() {
-//     this.mapLoad();
-//   },
-//   currLocation: function(result) {
-//     function success(position) {
-//       var cordinate = position.coords, 
-//           latitude = cordinate.latitude,
-//           longitude = cordinate.longitude; 
-//       return longitude + "," + latitude;
-//     };
-//     navigator.geolocation.getCurrentPosition(success);
-//   },
-//   mapLoad: function() {
-//     var currentPosition = geoLookup.currLocation();
-//     $('#map-canvas').gmap().bind('init', function(ev, map) {
-//       $('#map-canvas').gmap({'position': currentPosition, 'bounds': false}).click(function() {
-//         $('#map-canvas').gmap('openInfoWindow', {'content': 'Hello World!'}, this);
-//       });
-//     });
-//   },
-//   locationEntered: function() {
-//   } 
-// }
-
-// $(document).ready(geoLookup.mapLoad())
-
 var geoLookup = {
   initialize: function() {
     this.currLocation();
@@ -34,7 +7,6 @@ var geoLookup = {
   //Gets current location of user
   currLocation: function() {
     function success(position) {
-      console.log(position);
       var coords = position.coords;
       geoLookup.mapLoad(coords.latitude, coords.longitude);
       return coords;
@@ -82,18 +54,30 @@ var geoLookup = {
     console.log(url);
 
     $.getJSON(url, function(reply){
-      console.log(reply);
+      console.log("reply: ",reply);
+      //Error message
+      if (reply.message === "Error: Not found city") {
+        alert("City not found....Search again");
+      }
       var newLatitude = reply.coord.lat,
           newLongitude = reply.coord.lon,
           newLocation = {lat: newLatitude, lng:  newLongitude};
-
-      console.log("New location: ", newLocation);
 
       //set map's view with current location entered 
       geoLookup.mapLoad(newLatitude, newLongitude);  
 
       //Get weather details according to location
-      
+      //convert temperature to celsius by subtracting 273.15 as results is given in Kelvin
+      var tempkelvin = reply.main.temp,
+          tempCelsius = (tempkelvin - 273.15).toFixed(2),
+          country = reply.sys.country,
+          weatherDescription = reply.weather[0].description;
+
+
+      console.log("Latitude: ", newLatitude, " Longitude: ", newLongitude);
+      console.log("Country: ", country );
+      console.log("Temperature: ",tempCelsius);
+      console.log("weather description: ", weatherDescription);
     }); 
   }
   
