@@ -2,19 +2,47 @@
 <html>
   <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="styles/geo-lookup.css">
+  <link href='http://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" type="text/css" href="styles/bootstrap-3.3.2-dist/css/bootstrap.css">
+  <link rel="stylesheet" type="text/css" href="styles/geo-lookup.css">
   </head>
   <body>
-  <div id="icon"></div>  
-  <div>
-    <input type="text" id="textInput" placeholder="Enter location"></input>
-    <button type="submit" id="search">Search</button>
-  </div> 
-   <div id="map-canvas">
-   </div>
+    <!--Header-->
+    <div class="page-header">
+      <h1>Geo<small>Lookup</small></h1>
+    </div>
+    <!--Search-->
+    <div class="col-lg-6">
+      <div class="input-group">
+        <input type="text" class="form-control" id="textInput" placeholder="Search location">
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" id="search" aria-hidden="true"></span></button>
+          </span>
+        </div><!-- /input-group -->
+      </div><!-- /.col-lg-6 -->
+    </div><!-- /.row -->
+    <!--page body-->
+    <div class="container-fluid">
+      <!--Weather display-->
+      <div class="row">
+        <div class="col-xs-6"></div>
+        <div class="col-xs-6"></div>
+      </div>
+      <!--Map display-->
+      <div class="row">
+      </div>
+    <!--Footer-->
+    <div>
+    </div>
     <script type="text/javascript" src="lib/jquery-2.1.3.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2wxQ2gDTVfEI22MEwhhwntVS3Qe2yugk"></script> 
     <script type="text/javascript" src="scripts/geo-lookup.js"></script>  
   </body>   
 </html>
+
+ 
+    <!-- <div>
+      <div id="icon"></div>   
+      <div id="map-canvas">
+      </div>
+    </div -->

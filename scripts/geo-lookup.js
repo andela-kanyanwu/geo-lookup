@@ -9,6 +9,31 @@ var geoLookup = {
     function success(position) {
       var coords = position.coords;
       geoLookup.mapLoad(coords.latitude, coords.longitude);
+      var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + coords.latitude + "&lon=" + coords.longitude;
+
+      //Call the weather api using the user's current location
+      $.getJSON(url, function(reply){ 
+
+        //Error message
+        if (reply.message === "Error: Not found city") {
+          alert("City not found....Search again");
+        }
+
+        //convert temperature to celsius by subtracting 273.15 as results is given in Kelvin
+          var tempkelvin = reply.main.temp,
+          tempCelsius = (tempkelvin - 273.15).toFixed(2),
+          country = reply.sys.country,
+          weatherDescription = reply.weather[0].description,
+          icon = reply.weather[0].icon,
+          iconUrl = "http://openweathermap.org/img/w/" + icon + ".png"
+
+
+          console.log("Latitude: ", coords.latitude, " Longitude: ", coords.longitude);
+          console.log("Country: ", country );
+          console.log("Temperature: ",tempCelsius);
+          console.log("weather description: ", weatherDescription);
+          $("#icon").html("<img src=" + iconUrl + ">");
+      });
       return coords;
     };
     navigator.geolocation.getCurrentPosition(success);
@@ -27,7 +52,7 @@ var geoLookup = {
       marker.setMap(map);
     }
     google.maps.event.addDomListener(window, 'load', initialize());   
-  },
+  }, 
 
   //concatenates url with user's input
   url: function(){
@@ -36,14 +61,12 @@ var geoLookup = {
         fullUrl = url + "q=" + location;
         console.log("full URL: ", fullUrl);
     return fullUrl;
-
   },
 
   //Gets user's location
   locationEntered: function() {
     $("#search").click(function(event){
       event.preventDefault();
-      console.log("clicked");
       geoLookup.weatherMap();     
     });        
   },
