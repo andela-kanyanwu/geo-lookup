@@ -4,11 +4,44 @@
 }
 .page-header {
   margin: 0;
+  background: rgb(191, 192, 192);
+  padding: 10px;
+}
+.page-header h1, #weather, #temp, #position, .page-header span, #error {
+  font-family: 'Bree Serif', serif;
 }
 .page-header h1{
-  font-family: 'Bree Serif', serif;
-  font-size: 50px;
+  font-size: 60px;
+  color: rgb(35, 34, 55);
+  margin: 0;
+  margin-left: 20px;
+  font-weight: bold;
+}
+.page-header h1 small{
+  color: rgb(246, 246, 250);
+}
+.page-header span {
+  margin-left: 930px;
 }
 #search-bar {
   padding: 20px;
+}
+#icon img {
+  height: 100px;
+}
+#weather, #temp, #position {
+  font-size: 20px;
+}
+#weather {
+  padding: 10px;
+}
+#left-weather-section {
+  margin: 5px;
+  background-image: url("../images/shot3.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+}
+#error {
+  color: red;
 }

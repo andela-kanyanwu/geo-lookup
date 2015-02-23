@@ -10,13 +10,14 @@
     <!--Header-->
     <div class="page-header">
       <h1>Geo<small>Lookup</small></h1>
+      <span>...Find places on the map with weather forecast</span>
     </div>
     <!--Search-->
-    <div class="col-lg-6" id="search-bar">
+    <div class="col-md-6 pull-right" id="search-bar">
       <div class="input-group">
         <input type="text" class="form-control" id="textInput" placeholder="Search location">
           <span class="input-group-btn">
-            <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" id="search" aria-hidden="true"></span></button>
+            <button class="btn btn-default" type="submit" id="search"><span class="glyphicon glyphicon-search"  aria-hidden="true"></span></button>
           </span>
         </div><!-- /input-group -->
       </div><!-- /.col-lg-6 -->
@@ -24,28 +25,28 @@
     <!--page body-->
     <div class="container-fluid">
       <!--Weather display-->
-      <div class="row" id="weather-section">  
-        <div class="col-xs-12">
+      <div class="row">  
+        <div class="col-xs-12" id="weather-section">
           <!--Left part-->      
-          <div class="col-md-6">
+          <div class="col-md-5" id="left-weather-section">        
             <!--Upper daily weather row with icon-->
             <div class="row">
               <div class="col-xs-6" id="icon">  
               </div>
               <div class="col-xs-6"> 
                 <div class="row"> 
-                  <div class="col-xs-12" id="weather"> weather
+                  <div class="col-xs-12" id="weather">
                   </div>
                 </div>
                 <div class="row"> 
-                  <div class="col-xs-12" id="temp"> temp
+                  <div class="col-xs-12" id="temp">
                   </div>
                 </div>
               </div>
             </div>
             <!--Lower daily weather row-->
             <div class="row">              
-              <div class="col-xs-12" id="position"> Country and position
+              <div class="col-xs-12" id="position">
               </div>
             </div>
           </div>

@@ -20,8 +20,7 @@ var geoLookup = {
           $("#weather").hide();
           $("#temp").hide();
           $("#position").hide();          
-          $("#weather-section").html(reply.message);
-          alert("error");
+          $("#weather-section").html("<h2 id='error'>" + reply.message + "</h2>");
         }
 
         //convert temperature to celsius by subtracting 273.15 as results is given in Kelvin
@@ -34,15 +33,11 @@ var geoLookup = {
           latitude = coords.latitude.toFixed(2),
           longitude = coords.longitude.toFixed(2);
 
-
-          console.log("Latitude: ", coords.latitude, " Longitude: ", coords.longitude);
-          console.log("Country: ", country );
-          console.log("Temperature: ",tempCelsius);
-          console.log("weather description: ", weatherDescription);
-          $("#icon").html("<img src=" + iconUrl + ">");
-          $("#weather").html(weatherDescription);
-          $("#temp").html(tempCelsius);
-          $("#position").html(country + " - " + " lat: " + latitude + " lng: " + longitude);
+          $("#error").hide();
+          $("#icon").show().html("<img src=" + iconUrl + ">");
+          $("#weather").show().html(weatherDescription);
+          $("#temp").show().html(tempCelsius + '&deg' + "C");
+          $("#position").show().html(country + " - " + "  lat: " + latitude + "  lng: " + longitude);
       });
       return coords;
     };
@@ -69,7 +64,6 @@ var geoLookup = {
     var location = $('#textInput').val().trim(),
         url = "http://api.openweathermap.org/data/2.5/weather?",
         fullUrl = url + "q=" + location;
-        console.log("full URL: ", fullUrl);
     return fullUrl;
   },
 
@@ -78,47 +72,54 @@ var geoLookup = {
     $("#search").click(function(event){
       event.preventDefault();
       geoLookup.weatherMap();     
-    });        
+    }); 
+    $(document).on("keypress", "#textInput", function(e) {
+        if(e.which == 13) {
+            $('#search').trigger('click');
+        }
+    });       
   },
 
   //Calls weather api using location entered and sets map's location 
   weatherMap: function() {
     var url = geoLookup.url();
-    console.log(url);
 
     $.getJSON(url, function(reply){
-      console.log("reply: ",reply);
+
       //Error message
       if (reply.message === "Error: Not found city") {
-        alert("City not found....Search again");
-      }
-      var newLatitude = reply.coord.lat,
+        $("#icon").hide();
+        $("#weather").hide();
+        $("#temp").hide();
+        $("#position").hide();          
+        $("#weather-section").html("<h2 id='error'>" + reply.message + "</h2>");
+      } else {
+        var newLatitude = reply.coord.lat,
           newLongitude = reply.coord.lon,
           newLocation = {lat: newLatitude, lng:  newLongitude};
 
-      //set map's view with current location entered 
-      geoLookup.mapLoad(newLatitude, newLongitude);  
+        //set map's view with current location entered 
+        geoLookup.mapLoad(newLatitude, newLongitude);  
 
-      //Get weather details according to location
-      //convert temperature to celsius by subtracting 273.15 as results is given in Kelvin
-      var tempkelvin = reply.main.temp,
-          tempCelsius = (tempkelvin - 273.15).toFixed(2),
-          country = reply.sys.country,
-          weatherDescription = reply.weather[0].description,
-          icon = reply.weather[0].icon,
-          iconUrl = "http://openweathermap.org/img/w/" + icon + ".png",
-          latitude = newLatitude.toFixed(2),
-          longitude = newLongitude.toFixed(2);
+        //Get weather details according to location
+        //convert temperature to celsius by subtracting 273.15 as results is given in Kelvin
+        var tempkelvin = reply.main.temp,
+            tempCelsius = (tempkelvin - 273.15).toFixed(2),
+            country = reply.sys.country,
+            weatherDescription = reply.weather[0].description,
+            icon = reply.weather[0].icon,
+            iconUrl = "http://openweathermap.org/img/w/" + icon + ".png",
+            latitude = newLatitude.toFixed(2),
+            longitude = newLongitude.toFixed(2);
 
-
-      console.log("Latitude: ", newLatitude, " Longitude: ", newLongitude);
-      console.log("Country: ", country );
-      console.log("Temperature: ",tempCelsius);
-      console.log("weather description: ", weatherDescription);
-      $("#icon").html("<img src=" + iconUrl + ">");
-      $("#weather").html(weatherDescription);
-      $("#temp").html(tempCelsius);
-      $("#position").html(country + " - "+ " lat: " + latitude + " lng: " + longitude);
+        $("#error").hide();
+        console.log("hidden 2");
+        $("#icon").html("<img src=" + iconUrl + ">").show();
+        $("#weather").html(weatherDescription).show();
+        $("#temp").html(tempCelsius + '&deg' + "C").show();
+        $("#position").html(country + " - "+ "  lat: " + latitude + "  lng: " + longitude).show();
+      }
+      
     }); 
   }
   
