@@ -73,12 +73,12 @@ var geoLookup = {
     $("#search").click(function(event){
       event.preventDefault();      
       geoLookup.weatherMap();
-      $("#textInput").val('');     
+      //$("#textInput").val('');     
     }); 
     $(document).on("keypress", "#textInput", function(e) {
-      if(e.which == 13) {
-        $('#search').trigger('click');
-      }
+        if(e.which == 13) {
+          $('#search').trigger('click');
+        }
     });       
   },
 
