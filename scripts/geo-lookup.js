@@ -2,6 +2,8 @@ var geoLookup = {
   initialize: function() {
     this.currLocation();
     this.locationEntered();
+    $("#error").hide();
+    $("#weather-map").show();
   },
 
   //Gets current location of user
@@ -16,28 +18,27 @@ var geoLookup = {
 
         //Error message
         if (reply.message === "Error: Not found city") {
-          $("#icon").hide();
-          $("#weather").hide();
-          $("#temp").hide();
-          $("#position").hide();          
-          $("#weather-section").html("<h2 id='error'>" + reply.message + "</h2>");
+          $("#weather-map").hide(); 
+          $("#error").show();        
+          $("#error").html("<h2>" + "City not found" + "</h2>");
         }
 
         //convert temperature to celsius by subtracting 273.15 as results is given in Kelvin
           var tempkelvin = reply.main.temp,
-          tempCelsius = (tempkelvin - 273.15).toFixed(2),
-          country = reply.sys.country,
-          weatherDescription = reply.weather[0].description,
-          icon = reply.weather[0].icon,
-          iconUrl = "http://openweathermap.org/img/w/" + icon + ".png",
-          latitude = coords.latitude.toFixed(2),
-          longitude = coords.longitude.toFixed(2);
+              tempCelsius = (tempkelvin - 273.15).toFixed(2),
+              country = reply.sys.country,
+              weatherDescription = reply.weather[0].description,
+              icon = reply.weather[0].icon,
+              iconUrl = "http://openweathermap.org/img/w/" + icon + ".png",
+              latitude = coords.latitude.toFixed(2),
+              longitude = coords.longitude.toFixed(2);
 
           $("#error").hide();
-          $("#icon").show().html("<img src=" + iconUrl + ">");
-          $("#weather").show().html(weatherDescription);
-          $("#temp").show().html(tempCelsius + '&deg' + "C");
-          $("#position").show().html(country + " - " + "  lat: " + latitude + "  lng: " + longitude);
+          $("#weather-map").show();
+          $("#icon").html("<img src=" + iconUrl + ">").show();
+          $("#weather").html(weatherDescription).show();
+          $("#temp").html(tempCelsius + '&deg' + "C").show();
+          $("#position").html(country + " - " + "  lat: " + latitude + "  lng: " + longitude).show();
       });
       return coords;
     };
@@ -48,9 +49,9 @@ var geoLookup = {
   mapLoad: function(lat, lng) {
     function initialize() {
       var mapOptions = {
-        center:  {lat: lat, lng: lng},
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.HYBRID
+          center:  {lat: lat, lng: lng},
+          zoom: 15,
+          mapTypeId: google.maps.MapTypeId.HYBRID
       };
       var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
       var marker=new google.maps.Marker({position:mapOptions.center});
@@ -70,13 +71,14 @@ var geoLookup = {
   //Gets user's location
   locationEntered: function() {
     $("#search").click(function(event){
-      event.preventDefault();
-      geoLookup.weatherMap();     
+      event.preventDefault();      
+      geoLookup.weatherMap();
+      $("#textInput").val('');     
     }); 
     $(document).on("keypress", "#textInput", function(e) {
-        if(e.which == 13) {
-            $('#search').trigger('click');
-        }
+      if(e.which == 13) {
+        $('#search').trigger('click');
+      }
     });       
   },
 
@@ -88,12 +90,11 @@ var geoLookup = {
 
       //Error message
       if (reply.message === "Error: Not found city") {
-        $("#icon").hide();
-        $("#weather").hide();
-        $("#temp").hide();
-        $("#position").hide();          
-        $("#weather-section").html("<h2 id='error'>" + reply.message + "</h2>");
-      } else {
+        $("#weather-map").hide();          
+        $("#error").show(); 
+        $("#error").html("<h2>" + "City not found" + "</h2>");
+      } 
+      else {
         var newLatitude = reply.coord.lat,
           newLongitude = reply.coord.lon,
           newLocation = {lat: newLatitude, lng:  newLongitude};
@@ -113,7 +114,7 @@ var geoLookup = {
             longitude = newLongitude.toFixed(2);
 
         $("#error").hide();
-        console.log("hidden 2");
+        $("#weather-map").show();
         $("#icon").html("<img src=" + iconUrl + ">").show();
         $("#weather").html(weatherDescription).show();
         $("#temp").html(tempCelsius + '&deg' + "C").show();

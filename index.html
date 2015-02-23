@@ -2,64 +2,73 @@
 <html>
   <head>
   <meta charset="UTF-8">
-  <link href='http://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
+  <meta name="viewport" content="width=device-width, initial-scale=1">  
   <link rel="stylesheet" type="text/css" href="styles/bootstrap-3.3.2-dist/css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="styles/geo-lookup.css">
+  <link href='http://fonts.googleapis.com/css?family=Bree+Serif' rel='stylesheet' type='text/css'>
   </head>
   <body>
     <!--Header-->
-    <div class="page-header">
-      <h1>Geo<small>Lookup</small></h1>
-      <span>...Find places on the map with weather forecast</span>
-    </div>
-    <!--Search-->
-    <div class="col-md-6 pull-right" id="search-bar">
-      <div class="input-group">
-        <input type="text" class="form-control" id="textInput" placeholder="Search location">
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="submit" id="search"><span class="glyphicon glyphicon-search"  aria-hidden="true"></span></button>
-          </span>
-        </div><!-- /input-group -->
-      </div><!-- /.col-lg-6 -->
-    </div><!-- /.row -->
+    <nav class="navbar navbar-default">
+      <div class="container-fluid" id="page-header">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <div>
+            <h1 id="h1-text">Geo<small id="h1-small-text">Lookup</small></h1>
+            <span id="header-line-text">...Find places on the map with weather forecast</span>      
+          </div>      
+        </div>
+        <!-- search bar-->    
+        <form class="navbar-form navbar-right" id="search-bar"role="search">
+          <div class="form-group">
+            <input type="text" class="form-control" id="textInput" placeholder="Search location">
+          </div>
+          <button type="submit" class="btn btn-default" id="search"><span class="glyphicon glyphicon-search"  aria-hidden="true"></span></button>
+        </form>   
+      </div><!-- /.container-fluid -->
+    </nav> 
     <!--page body-->
     <div class="container-fluid">
       <!--Weather display-->
-      <div class="row">  
-        <div class="col-xs-12" id="weather-section">
-          <!--Left part-->      
-          <div class="col-md-5" id="left-weather-section">        
-            <!--Upper daily weather row with icon-->
-            <div class="row">
-              <div class="col-xs-6" id="icon">  
-              </div>
-              <div class="col-xs-6"> 
-                <div class="row"> 
-                  <div class="col-xs-12" id="weather">
-                  </div>
-                </div>
-                <div class="row"> 
-                  <div class="col-xs-12" id="temp">
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!--Lower daily weather row-->
-            <div class="row">              
-              <div class="col-xs-12" id="position">
-              </div>
-            </div>
-          </div>
-          <!--Right part--> 
-          <div class="col-md-6">For weekly weather display</div>
-        </div>
+      <div class="alert alert-warning" role="alert" id="error">
       </div>
-      <!--Map display-->
-      <div class="row"> 
-        <div>   
-          <div id="map-canvas">
+      <div id="weather-map">
+        <div class="row" id="middle-section">  
+          <div class="col-xs-12" id="weather-section">
+            <!--Left part-->      
+            <div class="col-md-5" id="left-weather-section">        
+              <!--Upper daily weather row with icon-->
+              <div class="row">
+                <div class="col-xs-6" id="icon">  
+                </div>
+                <div class="col-xs-6"> 
+                  <div class="row"> 
+                    <div class="col-xs-12" id="weather">
+                    </div>
+                  </div>
+                  <div class="row"> 
+                    <div class="col-xs-12" id="temp">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--Lower daily weather row-->
+              <div class="row">              
+                <div class="col-xs-12" id="position">
+                </div>
+              </div>
+            </div>
+            <!--Right part--> 
+            <div class="col-md-6"></div>
           </div>
-        </div
+        </div>
+        <!--Map display-->
+        <div class="row"> 
+          <div>   
+            <div id="map-canvas">
+            </div>
+          </div
+        </div>
       </div>
     <!--Footer-->
     <div>
