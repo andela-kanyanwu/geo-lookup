@@ -12,7 +12,7 @@
 #page-header {
   background: rgb(191, 192, 192);
 }
-#h1-text, #h1-small-text, #weather, #temp, #position, #header-line-text, #error, h3 {
+#h1-text, #h1-small-text, #weather, #temp, #position, #header-line-text, #error, h3, #country {
   font-family: 'Raleway', sans-serif;
 }
 #h1-text {
@@ -29,9 +29,9 @@
   padding-top: 30px; 
 }
 #icon img {
-  height: 200px;
+  height: 100px;
 }
-#weather, #temp, #position {
+#weather, #temp, #position, #country {
   font-size: 20px;
 }
 #weather {
@@ -42,8 +42,6 @@
   background-size: cover;
   background-repeat: no-repeat;
   color: white;
-  height: 600px;
-  padding: 30px;
 }
 
 

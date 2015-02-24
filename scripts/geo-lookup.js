@@ -24,8 +24,7 @@ var geoLookup = {
         }
 
         //convert temperature to celsius by subtracting 273.15 as results is given in Kelvin
-          var tempkelvin = reply.main.temp,
-              tempCelsius = (tempkelvin - 273.15).toFixed(2),
+          var tempCelsius = geoLookup.convertKelvinToCelsius(reply.main.temp),
               country = reply.sys.country,
               weatherDescription = reply.weather[0].description,
               icon = reply.weather[0].icon,
@@ -38,7 +37,39 @@ var geoLookup = {
           $("#icon").html("<img src=" + iconUrl + ">").show();
           $("#weather").html(weatherDescription).show();
           $("#temp").html(tempCelsius + '&deg' + "C").show();
-          $("#position").html(country + " - " + "  lat: " + latitude + "  lng: " + longitude).show();
+          $("#country").html(country).show();
+          $("#position").html("lat: " + latitude + "  lng: " + longitude).show();
+      }).fail(function(error){
+        if (error.statusText === "error") {
+          $("#error").html("An error occurred.");
+        }
+      });
+      
+      //call the weather's API using current location to get forecast for the week
+      var wkUrl = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + coords.latitude + "&lon=" + coords.longitude + "&cnt=7";
+
+      $.getJSON(wkUrl, function(reply){
+
+        for (var i = 1; i < (reply.list).length; i++) {
+          //converts the date given in unix timestamp to readable date
+          var date = geoLookup.convertUnixTimeToDate(reply.list[i].dt),
+              tempCelsius = geoLookup.convertKelvinToCelsius(reply.list[i].temp.day),
+              description = reply.list[i].weather[0].description,
+              icon = reply.list[i].weather[0].icon,
+              iconUrl = "http://openweathermap.org/img/w/" + icon + ".png";
+
+          console.log("date: ", date);
+          console.log("temperature: ", tempCelsius);
+          console.log("description: ", reply.list[i].weather[0].description);
+          console.log("icon: ", reply.list[i].weather[0].icon);
+
+          
+
+        // $("#weekly-date").append(date).show();
+        // $("#weekly-icon").append("<img src=" + iconUrl + ">").show();
+        // $("#weekly-temp").append(tempCelsius + "&deg" + "C").show();
+        // $("#weekly-description").append(description).show();
+        }     
       });
       return coords;
     };
@@ -104,8 +135,7 @@ var geoLookup = {
 
         //Get weather details according to location
         //convert temperature to celsius by subtracting 273.15 as results is given in Kelvin
-        var tempkelvin = reply.main.temp,
-            tempCelsius = (tempkelvin - 273.15).toFixed(2),
+        var tempCelsius = geoLookup.convertKelvinToCelsius(reply.main.temp),
             country = reply.sys.country,
             weatherDescription = reply.weather[0].description,
             icon = reply.weather[0].icon,
@@ -118,10 +148,27 @@ var geoLookup = {
         $("#icon").html("<img src=" + iconUrl + ">").show();
         $("#weather").html(weatherDescription).show();
         $("#temp").html(tempCelsius + '&deg' + "C").show();
-        $("#position").html(country + " - "+ "  lat: " + latitude + "  lng: " + longitude).show();
-      }
-      
+        $("#country").html(country).show();
+        $("#position").html("lat: " + latitude + "  lng: " + longitude).show();
+      }      
+    }).fail(function(error){
+        if (error.statusText === "error") {
+          $("#error").html("An error occurred.");
+        }
     }); 
+  },
+
+  //function to convert time from unix timestamp to readable date
+  convertUnixTimeToDate: function(unixTime) {
+    var milliseconds = unixTime * 1000,
+        date = new Date(milliseconds).toDateString();
+    return date;
+  },
+
+  //function to convert temperature given in kelvin to celsius
+  convertKelvinToCelsius: function(kelvin) {
+    var celsius = (kelvin - 273.15).toFixed(2);
+    return celsius;
   }
   
 }
