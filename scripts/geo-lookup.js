@@ -58,17 +58,7 @@ var geoLookup = {
               icon = reply.list[i].weather[0].icon,
               iconUrl = "http://openweathermap.org/img/w/" + icon + ".png";
 
-          console.log("date: ", date);
-          console.log("temperature: ", tempCelsius);
-          console.log("description: ", reply.list[i].weather[0].description);
-          console.log("icon: ", reply.list[i].weather[0].icon);
-
-          
-
-        // $("#weekly-date").append(date).show();
-        // $("#weekly-icon").append("<img src=" + iconUrl + ">").show();
-        // $("#weekly-temp").append(tempCelsius + "&deg" + "C").show();
-        // $("#weekly-description").append(description).show();
+          $("#weekly-weather").append('<div class="col-xs-6">' + '<div class="row weekly-date">' + date + '</div>' + '<div class="row weekly-icon">' + "<img src=" + iconUrl + ">" + '</div>' + '</div>' + '<div class="col-xs-6">' + '<div class="row weekly-temp">' + tempCelsius + "&deg" + "C" + '</div>' + '<div class="row weekly-description">' + description + '</div>' + '</div>');
         }     
       });
       return coords;
@@ -102,8 +92,9 @@ var geoLookup = {
   //Gets user's location
   locationEntered: function() {
     $("#search").click(function(event){
-      event.preventDefault();      
-      geoLookup.weatherMap();
+      event.preventDefault();     
+      geoLookup.weatherMap();      
+      geoLookup.weekWeather();      
       //$("#textInput").val('');     
     }); 
     $(document).on("keypress", "#textInput", function(e) {
@@ -130,8 +121,9 @@ var geoLookup = {
           newLongitude = reply.coord.lon,
           newLocation = {lat: newLatitude, lng:  newLongitude};
 
-        //set map's view with current location entered 
+        //set map's view with current location entered        
         geoLookup.mapLoad(newLatitude, newLongitude);  
+        geoLookup.weekWeather(newLatitude, newLongitude);
 
         //Get weather details according to location
         //convert temperature to celsius by subtracting 273.15 as results is given in Kelvin
@@ -150,12 +142,34 @@ var geoLookup = {
         $("#temp").html(tempCelsius + '&deg' + "C").show();
         $("#country").html(country).show();
         $("#position").html("lat: " + latitude + "  lng: " + longitude).show();
+      return newLocation;
       }      
     }).fail(function(error){
         if (error.statusText === "error") {
           $("#error").html("An error occurred.");
         }
     }); 
+  },
+
+  weekWeather: function(lat, lng) {
+    //call the weather's API using location entered to get forecast for the week
+    var wkUrl = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + lat + "&lon=" + lng + "&cnt=7";
+
+
+    $.getJSON(wkUrl, function(reply){
+      $("#weekly-weather").empty(); 
+      for (var i = 1; i < (reply.list).length; i++) {
+        //converts the date given in unix timestamp to readable date
+        var date = geoLookup.convertUnixTimeToDate(reply.list[i].dt),
+            tempCelsius = geoLookup.convertKelvinToCelsius(reply.list[i].temp.day),
+            description = reply.list[i].weather[0].description,
+            icon = reply.list[i].weather[0].icon,
+            iconUrl = "http://openweathermap.org/img/w/" + icon + ".png";
+
+           
+        $("#weekly-weather").append('<div class="col-xs-6">' + '<div class="row weekly-date">' + date + '</div>' + '<div class="row weekly-icon">' + "<img src=" + iconUrl + ">" + '</div>' + '</div>' + '<div class="col-xs-6">' + '<div class="row weekly-temp">' + tempCelsius + "&deg" + "C" + '</div>' + '<div class="row weekly-description">' + description + '</div>' + '</div>');
+      }     
+    });
   },
 
   //function to convert time from unix timestamp to readable date
